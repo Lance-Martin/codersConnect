@@ -94,19 +94,13 @@
             else {
               var newUser = {
                 name: name,
-                img: photo,
+                photo: photo,
                 score: scores,
               }
-              console.log(newUser);
               var currentURL = window.location.origin;
               $.post(currentURL+'/api/friends/new',newUser, function(data){
                 console.log(data);
-                if (data == true){
-                  console.log('data sent sucessfully');
-                }
-                else {
-                  console.log('there was a problem sending the data');
-                }
+                $('#modalContent').html("<h3 style = 'text-align: center'>Your match is "+data.name+"</h3>"+"<img src = '"+data.photo+"' style = 'width: 200px; height: 200px; margin-left: 39%; margin-bottom: 35px;'>");
               });
               $('#myModal').modal('show')
             }

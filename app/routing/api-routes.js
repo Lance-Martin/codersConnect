@@ -20,6 +20,15 @@ app.post('/api/friends/new', function(req, res){
 		differences.push(totalDifference);
 		console.log(differences);
 	}
-	res.json(true);
+	function indexOfSmallest(a) {
+	 var lowest = 0;
+	 for (var i = 1; i < a.length; i++) {
+	  if (a[i] < a[lowest]) lowest = i;
+	 }
+	 return lowest;
+	}
+	var responseIndex = indexOfSmallest(differences);
+
+	res.json(friendData[responseIndex]);
 });
 };

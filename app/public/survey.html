@@ -73,6 +73,7 @@
           var scores = [];
           var questionCount = 0;
           var questionBank =["You believe in using tabs religiously","You think you'd have to be insane to not use jQuery over vanilla javascript for manipulating the dom","You'd rather do css from scratch than use a framework such as bootstrap","You'd rather spend your time plumbing in the back end than designing for the front end","Single quotes over double quotes", "Music is a necessity while working", "Even if it's 3:00 AM keep coding till it's done", "Silicon Valley over Game of Thrones", "Mac until you die", "Open source everything"];
+          if ( name != "" && photo !="") {
           $('#inputArea').empty();
           $('#title').empty();
           $('#inputArea').html("<form onsubmit= 'return false'><div class = 'form-group'><label for =''>Rate on a scale of 0 to 5 whether you disagree or agree with the statement. 5 being you absolutely agree.</label><input type= 'number' class = 'form-control' id = 'userAnswer'></div><button type = 'submit' class = 'btn btn-primary' id = 'nextQuestion'>Next</button><form>");
@@ -80,31 +81,38 @@
           $('#title').html(symbol+" Question number " +(questionCount+1)+" of 10");
           $('#question').html(questionBank[0]);
           $('#nextQuestion').on('click',function(){
-            console.log('works');
-            if (questionCount < 9){
-              questionCount++;
-              var answer = $('#userAnswer').val().trim();
-              $('#userAnswer').val('');
-              scores.push(answer);
-              $('#title').empty();
-              $('#title').html(symbol+" Question number " +(questionCount+1)+" of 10");
-              $('#question').html(questionBank[questionCount]);
-              console.log(scores);
+            var answer = $('#userAnswer').val().trim();
+            var int = parseInt(answer);
+            if (answer != '' && int <=5 && int >= 0){
+              if (questionCount < 9){
+                questionCount++;
+                $('#userAnswer').val('');
+                scores.push(answer);
+                $('#title').empty();
+                $('#title').html(symbol+" Question number " +(questionCount+1)+" of 10");
+                $('#question').html(questionBank[questionCount]);
+              }
+              else {
+                var newUser = {
+                  name: name,
+                  photo: photo,
+                  score: scores,
+                }
+                var currentURL = window.location.origin;
+                $.post(currentURL+'/api/friends/new',newUser, function(data){
+                  $('#modalContent').html("<h3 style = 'text-align: center'>Your match is "+data.name+"</h3>"+"<img src = '"+data.photo+"' style = 'width: 200px; height: 200px; margin-left: 39%; margin-bottom: 35px;'>");
+                });
+                $('#myModal').modal('show')
+              }
             }
             else {
-              var newUser = {
-                name: name,
-                photo: photo,
-                score: scores,
-              }
-              var currentURL = window.location.origin;
-              $.post(currentURL+'/api/friends/new',newUser, function(data){
-                console.log(data);
-                $('#modalContent').html("<h3 style = 'text-align: center'>Your match is "+data.name+"</h3>"+"<img src = '"+data.photo+"' style = 'width: 200px; height: 200px; margin-left: 39%; margin-bottom: 35px;'>");
-              });
-              $('#myModal').modal('show')
+              alert("Please enter a number from 0 to 5");
             }
           });
+          }
+          else {
+            alert("please fill out the form before moving on");
+          }
           return false;
         })
       });

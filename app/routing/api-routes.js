@@ -18,7 +18,6 @@ app.post('/api/friends/new', function(req, res){
 			totalDifference += absoluteSum;
 		}
 		differences.push(totalDifference);
-		console.log(differences);
 	}
 	function indexOfSmallest(a) {
 	 var lowest = 0;

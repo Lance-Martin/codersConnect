@@ -29,7 +29,6 @@
       margin-top: 5%;
       background-color: #ecf0f1;
     }
-
     </style>
   </head>
   <body>
@@ -40,6 +39,9 @@
             <h1 style = "text-align:center;">Your match is in!</h1>
           </div>
           <div class = "row" id = "modalContent">
+          </div>
+          <div class = 'text-center' style = "margin-bottom: 30px;">
+          <button type = "button" id = "reload" class = "btn btn-primary">Restart Survey</button>
           </div>
         </div>
       </div>
@@ -103,6 +105,9 @@
                   $('#modalContent').html("<h3 style = 'text-align: center'>Your match is "+data.name+"</h3>"+"<img src = '"+data.photo+"' style = 'width: 200px; height: 200px; margin-left: 39%; margin-bottom: 35px;'>");
                 });
                 $('#myModal').modal('show')
+                $('#reload').on('click',function(){
+                  location.reload();
+                });
               }
             }
             else {
